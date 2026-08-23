@@ -180,3 +180,4 @@ Caso seja apresentada a mensagem abaixo, informe `y`:
 
 No teclado, pressione a tecla `w`. A tela do aplicativo será aberta numa nova aba do navegador. 
 
+Abra uma nova aba de terminal no seu Codespaces (clicando no botão `+` no canto superior direito do terminal).
