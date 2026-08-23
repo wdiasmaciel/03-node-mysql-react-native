@@ -95,3 +95,8 @@ Instale o Node.js com o comando abaixo:
    ```bash
    sudo apt install -y nodejs
    ```
+# Versão do Node.js
+Execute o comando abaixo para verificar a versão do Node.js instalado:
+   ```bash
+   node -v 
+   ```
