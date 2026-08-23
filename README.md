@@ -62,7 +62,7 @@ Execute o comando abaixo para identificar atualizações de programas:
 
 O comando `sudo apt update` atualiza a lista de pacotes disponíveis e suas versões nos repositórios configurados no seu sistema Linux.
 
-## O que significa cada parte do comando?
+## Significado de Cada Parte do Comando
 
 `sudo`: executa o comando com permissões de administrador (`root`).
 
