@@ -89,26 +89,35 @@ Execute o comando abaixo para instalar as atualizações que foram encontradas:
 
 2. O `upgrade` serve apenas para atualizar os programas que já estão instalados no seu computador. Rodar esse comando apenas faria você perder tempo esperando todo o seu sistema ser atualizado antes de colocar o Node.js.
 
+---
+
 # Instalar o Node.js
 
 Instale o Node.js com o comando abaixo:
    ```bash
    sudo apt install -y nodejs
    ```
+
+---
+
 # Versão do Node.js
 Execute o comando abaixo para verificar a versão do Node.js instalado:
    ```bash
    node -v 
    ```
-# Node Package Manager (NPM):
+---
 
-Instale o Node Package Manager (NPM):
-   ```bash
-   npm install -g npm@latest
-   ```
-# Versão do Node Package Manager (NPM):
+# Node Package Manager (NPM):
 
 Verifique a versão do Node Package Manager (NPM) instalado:
    ```bash
    npm -v
    ```
+
+Caso o Node Package Manager (NPM) não esteja instaldo, execute o comando abaixo:
+   ```bash
+   npm install -g npm@latest
+   ```
+
+---
+
