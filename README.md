@@ -46,7 +46,7 @@ O `GitHub` vai te dar uma URL longa (ex: https://github.dev).
 No código do seu aplicativo React Native, você usará o comando `fetch` ou a biblioteca `axios` apontando para a URL gerada pelo `GitHub`:
 
 ```javascript
-// Exemplo no React Native
+// Exemplo no React Native:
 fetch('https://github.dev')
   .then(response => response.json())
   .then(data => console.log(data));
