@@ -83,8 +83,7 @@ Execute o comando abaixo para instalar as atualizações que foram encontradas:
    ```bash
    sudo apt upgrade
    ```
-**OBS**: 
-Para instalar o Node.js, basta eu executar `sudo apt update` e `sudo apt install -y nodejs`.
+**OBS**: para instalar o Node.js, basta eu executar `sudo apt update` e `sudo apt install -y nodejs`.
 
 O `update` é obrigatório, porque ele atualiza a lista do sistema. Isso garante que o seu computador encontre o Node.js nos servidores e baixe a versão correta.
 
