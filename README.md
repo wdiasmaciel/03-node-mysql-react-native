@@ -51,5 +51,36 @@ fetch('https://github.dev')
   .then(response => response.json())
   .then(data => console.log(data));
 ```
+---
 
+# Atualizar a Lista de Pacotes no Linux
+
+Execute o comando abaixo para identificar atualizações de programas:
+   ```bash
+   sudo apt update
+   ```
+
+O comando `sudo apt update` atualiza a lista de pacotes disponíveis e suas versões nos repositórios configurados no seu sistema Linux.
+
+## O que significa cada parte do comando?
+
+`sudo`: executa o comando com permissões de administrador (`root`).
+
+`apt`: é o gerenciador de pacotes usado em distribuições como Ubuntu, Debian e Mint. `APT` significa Advanced Package Tool (Ferramenta de Pacotes Avançada). Ele é o sistema que gerencia todos os programas do computador:
+   1. Instala novos programas.
+   2. Atualiza os softwares existentes.
+   3. Remove aplicativos que você não quer mais.
+   4. Resolve dependências, que significa instalar automaticamente outros arquivos e bibliotecas que um programa precisa para funcionar.
+Antes do APT, os usuários precisavam baixar e compilar cada programa manualmente, o que era muito complexo. O APT automatizou todo esse processo.
+
+`update`: conecta-se aos servidores oficiais para baixar as informações mais recentes sobre os programas disponíveis: 
+   - Não atualiza o sistema: este comando não instala atualizações nos programas que já estão no seu computador.
+   - Apenas verifica: ele apenas avisa o seu computador quais novas versões de programas existem.
+   
+# Instalar as Atualizações
+
+Execute o comando abaixo para instalar as atualizações que foram encontradas:
+   ```bash
+   sudo apt upgrade
+   ```
 
