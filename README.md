@@ -77,13 +77,13 @@ Antes do APT, os usuários precisavam baixar e compilar cada programa manualment
    - Não atualiza o sistema: este comando não instala atualizações nos programas que já estão no seu computador.
    - Apenas verifica: ele apenas avisa o seu computador quais novas versões de programas existem.
    
-# Instalar as Atualizações
+## OBS: Instalar Todas as Atualizações
 
 Execute o comando abaixo para instalar as atualizações que foram encontradas:
    ```bash
    sudo apt upgrade
    ```
-**OBS**: para instalar o Node.js, basta eu executar `sudo apt update` e `sudo apt install -y nodejs`.
+**Importante**: para instalar o Node.js, basta eu executar `sudo apt update` e `sudo apt install -y nodejs`.
 
 O `update` é obrigatório, porque ele atualiza a lista do sistema. Isso garante que o seu computador encontre o Node.js nos servidores e baixe a versão correta.
 
