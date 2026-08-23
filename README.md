@@ -8,10 +8,10 @@ Para que o seu app em React Native converse com o MySQL no Codespaces, você pre
 [ App React Native ]  
         │  (Requisição HTTP / JSON)
         ▼
-[ API Back-end: Node.js ] (Roda dentro do Codespaces)
+[ API Back-end: Node.js ] 
         │  (Conexão SQL Nativa)
         ▼
-[ Banco de Dados MySQL ] (Roda dentro do Codespaces)
+[ Banco de Dados MySQL ] 
 ```
 
 
