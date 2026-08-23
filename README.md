@@ -138,7 +138,7 @@ Caso seja apresentada a mensagem abaixo, informe `y`:
    Ok to proceed? (y) 
    ```
 
-Com as setas do teclado, escolha o `template Blank (TypeScript)`.
+Com as setas do teclado, escolha o template `Blank (TypeScript)`.
 
 Informe um nome para o aplicativo. Exemplo: `meu-app`.
 
