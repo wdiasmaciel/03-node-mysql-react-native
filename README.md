@@ -100,3 +100,15 @@ Execute o comando abaixo para verificar a versão do Node.js instalado:
    ```bash
    node -v 
    ```
+# Node Package Manager (NPM):
+
+Instale o Node Package Manager (NPM):
+   ```bash
+   npm install -g npm@latest
+   ```
+# Versão do Node Package Manager (NPM):
+
+Verifique a versão do Node Package Manager (NPM) instalado:
+   ```bash
+   npm -v
+   ```
