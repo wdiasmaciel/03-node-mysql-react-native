@@ -121,3 +121,62 @@ Caso o Node Package Manager (NPM) não esteja instaldo, execute o comando abaixo
 
 ---
 
+# Criar um Projeto Usando o Expo 
+
+1. https://expo.dev/ 
+
+2. https://docs.expo.dev/ 
+
+  ```bash
+  npx create-expo-app@latest --template
+  ```
+
+Caso seja apresentada a mensagem abaixo, informe `y`:
+   ```text
+   Need to install the following packages:
+   create-expo-app@4.0.0
+   Ok to proceed? (y) 
+   ```
+
+Com as setas do teclado, escolha o `template Blank (TypeScript)`.
+
+Informe um nome para o aplicativo. Exemplo: `meu-app`.
+
+Selecione a opção: `Latest (SDK 57) - Recommended for most projects`.
+
+   ```text
+   ? Select an Expo SDK version: › - Use arrow-keys. Return to submit.
+   ❯   Latest (SDK 57) - Recommended for most projects
+       For learning with Expo Go (SDK 54)
+       Other SDK version…
+   ```
+
+Caso seja apresenta a mensagem abaixo, pressione `Y`.
+   ```text
+   ? You are creating a project inside of an existing Git repository. Skip initializing a new git repository? › (Y/n)
+   ```
+
+Entre no diretório do aplicativo:
+   ```bash
+   cd meu-app
+   ```
+
+Execute o comando:
+   ```bash
+   npx expo install react-dom react-native-web
+   ```
+
+Inicie a aplicação:
+   ```bash
+   npx expo start
+   ```
+
+Caso seja apresentada a mensagem abaixo, informe `y`:
+   ```text
+   Need to install the following packages:
+   expo@54.0.10
+   Ok to proceed? (y)
+   ```
+
+No teclado, pressione a tecla `w`. A tela do aplicativo será aberta numa nova aba do navegador. 
+
