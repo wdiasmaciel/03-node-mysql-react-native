@@ -50,12 +50,6 @@ export default function Principal() {
         if (idEdicao === id) limparFormulario(); // Se o item deletado for o mesmo que estava sob edição ativa, limpa a tela.
         carregar(); // Atualiza a lista, removendo o item apagado.
     };
-     
-    // Aciona a consulta de forma automatizada assim que o ciclo de montagem do app é iniciado:
-    useEffect(() => {
-        carregar();
-    }, []); // O array vazio garante que o efeito seja executado apenas uma vez, no momento da montagem do componente.
-
 
     // Intercepta o clique na lista e popula o painel superior injetando os dados do objeto selecionado.
     const iniciarEdicao = (livro: InterfaceLivro) => {
@@ -74,6 +68,11 @@ export default function Principal() {
         setPreco('');
         setEstoque('');
     };
+
+    // Aciona a consulta de forma automatizada assim que o ciclo de montagem do app é iniciado:
+    useEffect(() => {
+        carregar();
+    }, []); // O array vazio garante que o efeito seja executado apenas uma vez, no momento da montagem do componente.
 
     return (
         <SafeAreaView style={estilos.container}>
