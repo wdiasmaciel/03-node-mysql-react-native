@@ -75,38 +75,40 @@ export default function Principal() {
     }, []); // O array vazio garante que o efeito seja executado apenas uma vez, no momento da montagem do componente.
 
     return (
-        <SafeAreaView style={estilos.container}>
-            <Text style={estilos.titulo}>Painel CRUD Livraria (MySQL)</Text>
+        <SafeAreaProvider>
+            <SafeAreaView style={estilos.container}>
+                <Text style={estilos.titulo}>Painel CRUD Livraria (MySQL)</Text>
 
-            {/* Acopla o componente de formulário repassando dados e gatilhos via Props: */}
-            <FormularioLivro
-                titulo={titulo} setTitulo={setTitulo}
-                autor={autor} setAutor={setAutor}
-                preco={preco} setPreco={setPreco}
-                estoque={estoque} setEstoque={setEstoque}
-                idEdicao={idEdicao} salvarDados={salvar}
-                limparFormulario={limparFormulario}
-            />
-
-            {/* Condicional que avalia o estado de carregamento assíncrono: */}
-            {carregando ? (
-                <ActivityIndicator size="large" color="#0000ff" />
-            ) : (
-                // Listagem otimizada nativa para grandes volumes de registros mapeando o array vindo do banco de dados:
-                <FlatList
-                    data={livros}
-                    keyExtractor={(item) => item.id?.toString() || Math.random().toString()} // Garante chaves textuais únicas baseadas no ID incremental do MySQL.
-                    renderItem={({ item }) => (
-                        // Invoca o componente visual de linha injetando o livro específico:
-                        <ItemLivro
-                            item={item}
-                            iniciarEdicao={iniciarEdicao}
-                            excluirLivro={excluir}
-                        />
-                    )}
+                {/* Acopla o componente de formulário repassando dados e gatilhos via Props: */}
+                <FormularioLivro
+                    titulo={titulo} setTitulo={setTitulo}
+                    autor={autor} setAutor={setAutor}
+                    preco={preco} setPreco={setPreco}
+                    estoque={estoque} setEstoque={setEstoque}
+                    idEdicao={idEdicao} salvarDados={salvar}
+                    limparFormulario={limparFormulario}
                 />
-            )}
-        </SafeAreaView>
+
+                {/* Condicional que avalia o estado de carregamento assíncrono: */}
+                {carregando ? (
+                    <ActivityIndicator size="large" color="#0000ff" />
+                ) : (
+                    // Listagem otimizada nativa para grandes volumes de registros mapeando o array vindo do banco de dados:
+                    <FlatList
+                        data={livros}
+                        keyExtractor={(item) => item.id?.toString() || Math.random().toString()} // Garante chaves textuais únicas baseadas no ID incremental do MySQL.
+                        renderItem={({ item }) => (
+                            // Invoca o componente visual de linha injetando o livro específico:
+                            <ItemLivro
+                                item={item}
+                                iniciarEdicao={iniciarEdicao}
+                                excluirLivro={excluir}
+                            />
+                        )}
+                    />
+                )}
+            </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
 
