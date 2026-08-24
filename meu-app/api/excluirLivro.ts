@@ -1,11 +1,15 @@
 // Importa componente visual nativo:
 import { Alert, Platform } from 'react-native';
 
+/*
+ * Nesta função, a Promise é necessária, porque Alert.alert é assíncrono: 
+ * a função precisa esperar o usuário escolher Excluir ou Cancelar antes 
+ * de continuar. Sem a Promise, o fetch poderia ser executado antes da 
+ * confirmação, ou o carregar() poderia ocorrer antes da exclusão terminar.
+ */
+
 // OPERAÇÃO DELETE (DELETE): remoção física de registro baseada no ID.
-export async function excluirLivro(
-    id: number,
-    URL_DA_API: string
-): Promise<boolean> {
+export async function excluirLivro(id: number, URL_DA_API: string): Promise<boolean> {
     const mensagem = 'Deseja realmente apagar este registro do banco de dados?';
 
     if (Platform.OS === 'web') {
