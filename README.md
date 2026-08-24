@@ -1,6 +1,10 @@
 # 03-node-mysql-react-native
 
 # Interação
+
+Dando continuidade à prática anterior: 
+https://github.com/wdiasmaciel/02-node-mysql-react-native
+
 Para que o seu app em React Native converse com o MySQL no Codespaces, você precisará de uma API (um back-end) no meio do caminho e precisará liberar uma porta pública no GitHub Codespaces.
 
 ---
