@@ -109,9 +109,9 @@ export default function Principal() {
                             <ItemLivro
                                 item={item}
                                 iniciarEdicao={iniciarEdicao}
-                                excluirLivro={(id) => { 
-                                    if (id !== undefined) {
-                                        excluir(id);
+                                excluirLivro={(item.id) => { 
+                                    if (item.id !== undefined) {
+                                        excluir(item.id);
                                     }
                                 }}
                             />
