@@ -204,7 +204,7 @@ crie a seguinte estrutura:
 
 # Interface
 
-No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
+No arquivo `InterfaceLivro.ts`, informe o conteúdo abaixo:
 
    ```javascript
    export interface InterfaceLivro {
