@@ -199,3 +199,55 @@ crie a seguinte estrutura:
    │   └── InterfaceLivro.ts    (Contrato que diz quais são os campos de um livro vindo do MySQL)
    └── App.tsx                  (Arquivo principal unificado)
    ```
+
+--- 
+
+# Interface
+
+No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
+
+   ```javascript
+   export interface InterfaceLivro {
+       id: number;
+       titulo: string;
+       autor: string;
+       preco: number;
+       estoque: number;
+   }
+   ```
+
+--- 
+
+# Interface
+
+No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
+
+   ```javascript
+   ```
+
+   --- 
+
+# Interface
+
+No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
+
+   ```javascript
+   ```
+
+   --- 
+
+# Interface
+
+No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
+
+   ```javascript
+   ```
+
+   --- 
+
+# Interface
+
+No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
+
+   ```javascript
+   ```   
