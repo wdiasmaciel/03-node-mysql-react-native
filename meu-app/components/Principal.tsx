@@ -53,7 +53,7 @@ export default function Principal() {
             if (idEdicao === id){
                 limparFormulario(); // Se o item deletado for o mesmo que estava sob edição ativa, limpa a tela.
             }
-            
+
             carregar(); // Atualiza a lista, removendo o item apagado.
         }
     };
