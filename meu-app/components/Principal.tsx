@@ -1,44 +1,38 @@
 // Importação de componentes de ciclo de vida e gerenciamento de estado:
 import { useEffect, useState } from 'react'; 
+
+// Importação do Provider e o do SafeAreaView:
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
 // Importa os componentes visuais nativos:
-import { StyleSheet, Text, FlatList, ActivityIndicator, SafeAreaView, Alert } from 'react-native'; 
+import { StyleSheet, Text, FlatList, ActivityIndicator, Alert } from 'react-native'; 
 
 // Importação dos componentes modulares criados:
 import FormularioLivro from './FormularioLivro';
 import ItemLivro from './ItemLivro';
 
-// Importação da interface para livros do Banco de Dados MySQL:
-import { InterfaceLivro } from '../interface/InterfaceLivro'
 
 // URL gerada pelo redirecionamento de portas do ambiente de nuvem do GitHub Codespaces:
 const URL_DA_API = 'https://github.dev';
 
 export default function Principal() {
-    // 1. ESTADOS DO SISTEMA DE GERENCIAMENTO (Tipados estritamente pelo TypeScript):
+    // ESTADOs DO SISTEMA DE GERENCIAMENTO (Tipados estritamente pelo TypeScript):
     const [livros, setLivros] = useState<InterfaceLivro[]>([]); // Estado aceita apenas um array contendo objetos do tipo InterfaceLivro.
     const [carregando, setCarregando] = useState<boolean>(true); // Estado booleano para controlar o indicador de carregamento visual.
 
-    // 2. ESTADOS DAS ENTRADAS DO FORMULÁRIO DE CAPTURA
+    // ESTADOS DAS ENTRADAS DO FORMULÁRIO DE CAPTURA:
     const [titulo, setTitulo] = useState<string>('');
     const [autor, setAutor] = useState<string>('');
     const [preco, setPreco] = useState<string>('');
     const [estoque, setEstoque] = useState<string>('');
-    const [idEdicao, setIdEdicao] = useState<number | null>(null); // Aceita número identificador ou nulo caso não haja livro selecionado
+    const [idEdicao, setIdEdicao] = useState<number | null>(null); // Aceita número identificador ou nulo caso não haja livro selecionado.
 
-    // 3. OPERAÇÃO READ (GET): Busca em lote todos os livros salvos no MySQL
-    const carregarLivros = () => {
-        fetch(URL_DA_API)
-            .then((resposta) => resposta.json()) // Extrai o fluxo de dados transformando o texto em JSON puro
-            .then((dados: InterfaceLivro[]) => { // Diz ao TypeScript que os dados de resposta obedecem à nossa estrutura padrão
-                setLivros(dados); // Popula o array com a resposta oficial do banco
-                setCarregando(false); // Esconde o componente circular de processamento da interface gráfica
-            })
-            .catch((erro) => console.error('Erro ao buscar livros no banco de dados:', erro));
-    };
 
     // Aciona a consulta de forma automatizada assim que o ciclo de montagem do app é iniciado
     useEffect(() => {
-        carregarLivros();
+        livros = carregarLivros();
+        if(livros)
+            setCarregando(false); // Esconde o componente circular de processamento da interface gráfica
     }, []);
 
     // 4. OPERAÇÃO CREATE (POST) & UPDATE (PUT): Gravação e modificação de tuplas
