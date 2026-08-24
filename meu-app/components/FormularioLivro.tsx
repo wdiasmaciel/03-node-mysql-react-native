@@ -11,10 +11,10 @@ import { InterfaceLivro } from '../interface/InterfaceLivro'
 export default function FormularioLivro(props: PropriedadesFormulario) {
     return (
         // Agrupa os elementos visuais e aplica um estilo extra de cor laranja caso esteja editando:
-        <View style={[estilos.formulario, props.idEdicao !== null && estilos.formularioEdicao]}>
+        <View style={[estilos.formulario, props.idEdicao !== undefined && estilos.formularioEdicao]}>
             {/* Altera o texto do cabeçalho de acordo com o estado de edição: */}
             <Text style={estilos.formularioTitulo}>
-                {props.idEdicao !== null ? "Editando Registro" : "Novo Livro"}
+                {props.idEdicao !== undefined ? "Editando Registro" : "Novo Livro"}
             </Text>
 
             {/* Campo de captura para o título do livro: */}
@@ -55,7 +55,7 @@ export default function FormularioLivro(props: PropriedadesFormulario) {
             <View style={estilos.fileiraAcoes}>
                 {/* Botão principal para gravação ou modificação de dados no MySQL: */}
                 <TouchableOpacity
-                    style={[estilos.botao, props.idEdicao !== null ? estilos.botaoLaranja : estilos.botaoVerde]}
+                    style={[estilos.botao, props.idEdicao !== undefined ? estilos.botaoLaranja : estilos.botaoVerde]}
                     onPress={() => {
                         const livro: InterfaceLivro = {
                             id: props.idEdicao || undefined, // Define o ID apenas se estiver editando, caso contrário, deixa como undefined.
@@ -68,12 +68,12 @@ export default function FormularioLivro(props: PropriedadesFormulario) {
                     }}
                 >
                     <Text style={estilos.botaoTexto}>
-                        {props.idEdicao !== null ? "Atualizar no MySQL" : "Salvar no MySQL"}
+                        {props.idEdicao !== undefined ? "Atualizar no MySQL" : "Salvar no MySQL"}
                     </Text>
                 </TouchableOpacity>
 
                 {/* Renderização condicional: exibe o botão de cancelar apenas se idEdicao for ativo: */}
-                {props.idEdicao !== null && (
+                {props.idEdicao !== undefined && (
                     <TouchableOpacity style={estilos.botaoCancelar} onPress={props.limparFormulario}>
                         <Text style={estilos.cancelarTexto}>Cancelar</Text>
                     </TouchableOpacity>
