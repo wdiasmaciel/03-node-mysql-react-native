@@ -1,11 +1,11 @@
 // Importação de componentes de ciclo de vida e gerenciamento de estado:
-import { useEffect, useState } from 'react'; 
+import { useEffect, useState } from 'react';
 
 // Importação do Provider e o do SafeAreaView:
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 // Importa os componentes visuais nativos:
-import { StyleSheet, Text, FlatList, ActivityIndicator, Alert } from 'react-native'; 
+import { StyleSheet, Text, FlatList, ActivityIndicator, Alert } from 'react-native';
 
 // Importação da interface para livros do Banco de Dados MySQL:
 import { InterfaceLivro } from '../interface/InterfaceLivro'
@@ -13,10 +13,11 @@ import { InterfaceLivro } from '../interface/InterfaceLivro'
 // Importação dos componentes modulares criados:
 import FormularioLivro from './FormularioLivro';
 import ItemLivro from './ItemLivro';
-import { ler } from '../api/ler'; // Função de leitura do banco de dados MySQL.
+import { lerLivros } from '../api/lerLivros'; // Função de leitura no banco de dados MySQL.
+import { salvarLivros } from '../api/salvarLivros'; // Função de escrita no banco de dados MySQL.
 
 // URL gerada pelo redirecionamento de portas do ambiente de nuvem do GitHub Codespaces:
-const URL_DA_API = 'https://github.dev';
+const URL_DA_API: string = 'https://github.dev';
 
 export default function Principal() {
     // ESTADOs DO SISTEMA DE GERENCIAMENTO (Tipados estritamente pelo TypeScript):
@@ -30,48 +31,24 @@ export default function Principal() {
     const [estoque, setEstoque] = useState<string>('');
     const [idEdicao, setIdEdicao] = useState<number | null>(null); // Aceita número identificador ou nulo caso não haja livro selecionado.
 
-
-    // Aciona a consulta de forma automatizada assim que o ciclo de montagem do app é iniciado
-    useEffect(() => {
-        ler(URL_DA_API).then((livros) => {
+    const carregar = () => {
+        lerLivros(URL_DA_API).then((livros) => {
             setLivros(livros);
             setCarregando(false);
         });
+    };
+
+    const salvar = (idEdicao: number | null, livro: InterfaceLivro) => {
+        salvarLivros(idEdicao, livro, URL_DA_API);
+        limparFormulario(); // Executa o reset visual de todas as caixas de inserção.
+        carregar(); // Atualiza a tela executando um novo GET automático de sincronização.
+    };
+
+    // Aciona a consulta de forma automatizada assim que o ciclo de montagem do app é iniciado:
+    useEffect(() => {
+        carregar();
     }, []); // O array vazio garante que o efeito seja executado apenas uma vez, no momento da montagem do componente.
 
-    // 4. OPERAÇÃO CREATE (POST) & UPDATE (PUT): Gravação e modificação de tuplas
-    const salvarDados = () => {
-        // Validação preventiva no front-end para evitar o envio de strings ou dados em branco
-        if (!titulo || !autor || !preco || !estoque) {
-            Alert.alert('Erro', 'Por favor, realize o preenchimento de todos os campos!');
-            return;
-        }
-
-        // Monta o payload higienizando strings e parseando formatos primitivos de números exigidos pelo banco de dados
-        const dadosLivro = {
-            titulo: titulo.trim(),
-            autor: autor.trim(),
-            preco: parseFloat(preco),
-            estoque: parseInt(estoque)
-        };
-
-        // Monta a rota e o verbo HTTP dinamicamente baseado na presença do ID de edição
-        const urlFinal = idEdicao !== null ? `${URL_DA_API}/${idEdicao}` : URL_DA_API;
-        const metodoHttp = idEdicao !== null ? 'PUT' : 'POST';
-
-        fetch(urlFinal, {
-            method: metodoHttp,
-            headers: { 'Content-Type': 'application/json' }, // Cabeçalho sinaliza que o corpo viaja em notação JSON
-            body: JSON.stringify(dadosLivro), // Transforma o dicionário tipado em string textual para transporte na rede HTTP
-        })
-            .then((resposta) => resposta.json())
-            .then(() => {
-                Alert.alert('Sucesso!', idEdicao !== null ? 'Livro atualizado no MySQL!' : 'Livro cadastrado no MySQL!');
-                limparFormulario(); // Executa o reset visual de todas as caixas de inserção
-                carregarLivros(); // Atualiza a tela executando um novo GET automático de sincronização
-            })
-            .catch((erro) => console.error('Erro ao processar requisição no servidor:', erro));
-    };
 
     // Intercepta o clique na lista e popula o painel superior injetando os dados do objeto selecionado
     const iniciarEdicao = (livro: InterfaceLivro) => {

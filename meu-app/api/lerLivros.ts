@@ -2,7 +2,7 @@
 import { InterfaceLivro } from '../interface/InterfaceLivro'
 
 // OPERAÇÃO READ (GET): busca em lote todos os livros salvos no MySQL:
-export async function ler(URL_DA_API: string) {
+export async function lerLivros(URL_DA_API: string) {
     let livros: InterfaceLivro[] = [];
 
     await fetch(URL_DA_API)
