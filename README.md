@@ -192,6 +192,8 @@ Abra uma nova aba de terminal no seu Codespaces (clicando no botão `+` no canto
 
 crie a seguinte estrutura:
    ```text
+   ├── interface/
+   │   ├── InterfaceLivro.ts    (Contrato que diz quais são os campos de um livro vindo do MySQL)
    ├── components/
    │   ├── FormularioLivro.tsx  (Responsável por adicionar/editar - POST e PUT)
    │   └── ItemLivro.tsx        (Responsável por exibir cada livro e excluir - GET e DELETE)
