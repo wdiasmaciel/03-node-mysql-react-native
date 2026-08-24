@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 import { InterfaceLivro } from '../interface/InterfaceLivro'
 
 // OPERAÇÃO CREATE (POST) & UPDATE (PUT): gravação e modificação de tuplas:
-export async function salvarLivro(idEdicao: number | null, livro: InterfaceLivro, URL_DA_API: string) {
+export async function salvarLivro(idEdicao: number | undefined, livro: InterfaceLivro, URL_DA_API: string) {
     const { titulo, autor, preco, estoque } = livro;
 
     // Validação preventiva no front-end para evitar o envio de strings ou dados em branco:
@@ -23,8 +23,8 @@ export async function salvarLivro(idEdicao: number | null, livro: InterfaceLivro
     };
 
     // Monta a rota e o verbo HTTP dinamicamente baseado na presença do ID de edição
-    const urlFinal = idEdicao == null ? URL_DA_API : `${URL_DA_API}/${idEdicao}`;
-    const metodoHttp = idEdicao == null ? 'POST' : 'PUT';
+    const urlFinal = idEdicao == undefined ? URL_DA_API : `${URL_DA_API}/${idEdicao}`;
+    const metodoHttp = idEdicao == undefined ? 'POST' : 'PUT';
 
     await fetch(urlFinal, {
         method: metodoHttp,
@@ -33,7 +33,7 @@ export async function salvarLivro(idEdicao: number | null, livro: InterfaceLivro
     })
         .then((resposta) => resposta.json())
         .then(() => {
-            Alert.alert('Sucesso!', idEdicao == null ? 'Livro cadastrado no MySQL!' : 'Livro atualizado no MySQL!');
+            Alert.alert('Sucesso!', idEdicao == undefined ? 'Livro cadastrado no MySQL!' : 'Livro atualizado no MySQL!');
         })
         .catch((erro) => console.error('Erro ao processar requisição no servidor:', erro));
 };

@@ -1,3 +1,6 @@
+// Importação da interface para livros do Banco de Dados MySQL:
+import { InterfaceLivro } from '../interface/InterfaceLivro'
+
 // Define o contrato de tipos (Interface) para todas as propriedades (props) do formulário.
 export interface PropriedadesFormulario {
     titulo: string; // O texto do título é uma string.
@@ -16,9 +19,9 @@ export interface PropriedadesFormulario {
     * Numa operação de cadastro (POST): idEdicao armazena null.
     * Numa operação de edição (PUT): idEdicao armazena o ID do livro que sofreu atualização.  
     */
-    idEdicao: number | null; // Pode ser o número do ID ou nulo se for um novo cadastro.
+    idEdicao: number | undefined; // Pode ser o número do ID ou undefined se for um novo cadastro.
 
-    salvarDados: () => void; // Função de envio que roda no clique do botão principal.
+    salvarDados: (idEdicao: number | undefined, livro: InterfaceLivro) => void; // Função de envio que roda no clique do botão principal.
 
     limparFormulario: () => void; // Função para resetar os estados, limpando os campos do formulário.
 }

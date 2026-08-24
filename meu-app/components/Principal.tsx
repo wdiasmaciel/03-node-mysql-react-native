@@ -30,7 +30,7 @@ export default function Principal() {
     const [autor, setAutor] = useState<string>('');
     const [preco, setPreco] = useState<string>('');
     const [estoque, setEstoque] = useState<string>('');
-    const [idEdicao, setIdEdicao] = useState<number | null>(null); // Aceita número identificador ou nulo caso não haja livro selecionado.
+    const [idEdicao, setIdEdicao] = useState<number | undefined>(undefined); // Aceita número identificador ou undefined caso não haja livro selecionado.
 
     const carregar = () => {
         lerLivros(URL_DA_API).then((livros) => {
@@ -39,7 +39,7 @@ export default function Principal() {
         });
     };
 
-    const salvar = (idEdicao: number | null, livro: InterfaceLivro) => {
+    const salvar = (idEdicao: number | undefined, livro: InterfaceLivro) => {
         salvarLivro(idEdicao, livro, URL_DA_API);
         limparFormulario(); // Executa o reset visual de todas as caixas de inserção.
         carregar(); // Atualiza a tela executando um novo GET automático de sincronização.
@@ -62,7 +62,7 @@ export default function Principal() {
 
     // Limpa todos os estados esvaziando a memória temporária do formulário de entrada:
     const limparFormulario = () => {
-        setIdEdicao(null);
+        setIdEdicao(undefined);
         setTitulo('');
         setAutor('');
         setPreco('');
@@ -76,32 +76,32 @@ export default function Principal() {
 
     return (
         <SafeAreaView style={estilos.container}>
-            <Text style={estilos.titulo}>📚 Painel CRUD Livraria (MySQL)</Text>
+            <Text style={estilos.titulo}>Painel CRUD Livraria (MySQL)</Text>
 
-            {/* Acopla o componente de formulário repassando dados e gatilhos via Props */}
+            {/* Acopla o componente de formulário repassando dados e gatilhos via Props: */}
             <FormularioLivro
                 titulo={titulo} setTitulo={setTitulo}
                 autor={autor} setAutor={setAutor}
                 preco={preco} setPreco={setPreco}
                 estoque={estoque} setEstoque={setEstoque}
-                idEdicao={idEdicao} salvarDados={salvarDados}
+                idEdicao={idEdicao} salvarDados={salvar}
                 limparFormulario={limparFormulario}
             />
 
-            {/* Condicional que avalia o estado de carregamento assíncrono */}
+            {/* Condicional que avalia o estado de carregamento assíncrono: */}
             {carregando ? (
                 <ActivityIndicator size="large" color="#0000ff" />
             ) : (
-                // Listagem otimizada nativa para grandes volumes de registros mapeando o array vindo do banco de dados
+                // Listagem otimizada nativa para grandes volumes de registros mapeando o array vindo do banco de dados:
                 <FlatList
                     data={livros}
-                    keyExtractor={(item) => item.id.toString()} // Garante chaves textuais únicas baseadas no ID incremental do MySQL
+                    keyExtractor={(item) => item.id?.toString() || Math.random().toString()} // Garante chaves textuais únicas baseadas no ID incremental do MySQL.
                     renderItem={({ item }) => (
-                        // Invoca o componente visual de linha injetando o livro específico
+                        // Invoca o componente visual de linha injetando o livro específico:
                         <ItemLivro
                             item={item}
                             iniciarEdicao={iniciarEdicao}
-                            excluirLivro={excluirLivro}
+                            excluirLivro={excluir}
                         />
                     )}
                 />

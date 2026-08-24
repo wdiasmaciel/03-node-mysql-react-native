@@ -22,7 +22,11 @@ export default function ItemLivro(props: PropriedadesLivro) {
                 {/* Botão de exclusão isolado posicionado na lateral superior direita: */}
                 <TouchableOpacity 
                     style={estilos.botaoDeletar} 
-                    onPress={() => props.excluirLivro(props.item.id)}
+                    onPress={() => {
+                        if (props.item.id !== undefined) {
+                            props.excluirLivro(props.item.id);
+                        }
+                    }}
                 >
                     <Text style={estilos.botaoDeletarTexto}>Excluir</Text>
                 </TouchableOpacity>

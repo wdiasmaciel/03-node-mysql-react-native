@@ -1,7 +1,11 @@
 // Importa os componentes visuais nativos:
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+
 // Importa a interface para propriedades do formulário:
 import { PropriedadesFormulario } from '../interface/PropriedadesFormulario'
+
+// Importação da interface para livros do Banco de Dados MySQL:
+import { InterfaceLivro } from '../interface/InterfaceLivro'
 
 // Declara o componente aplicando a tipagem na propriedade recebida:
 export default function FormularioLivro(props: PropriedadesFormulario) {
@@ -52,7 +56,16 @@ export default function FormularioLivro(props: PropriedadesFormulario) {
                 {/* Botão principal para gravação ou modificação de dados no MySQL: */}
                 <TouchableOpacity
                     style={[estilos.botao, props.idEdicao !== null ? estilos.botaoLaranja : estilos.botaoVerde]}
-                    onPress={props.salvarDados}
+                    onPress={() => {
+                        const livro: InterfaceLivro = {
+                            id: props.idEdicao || undefined, // Define o ID apenas se estiver editando, caso contrário, deixa como undefined.
+                            titulo: props.titulo,
+                            autor: props.autor,
+                            preco: parseFloat(props.preco) || 0, // Converte para número ou define 0 se inválido.
+                            estoque: parseFloat(props.estoque) || 0 // Converte para número ou define 0 se inválido.
+                        };
+                        props.salvarDados(props.idEdicao, livro);
+                    }}
                 >
                     <Text style={estilos.botaoTexto}>
                         {props.idEdicao !== null ? "Atualizar no MySQL" : "Salvar no MySQL"}
