@@ -7,10 +7,13 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 // Importa os componentes visuais nativos:
 import { StyleSheet, Text, FlatList, ActivityIndicator, Alert } from 'react-native'; 
 
+// Importação da interface para livros do Banco de Dados MySQL:
+import { InterfaceLivro } from '../interface/InterfaceLivro'
+
 // Importação dos componentes modulares criados:
 import FormularioLivro from './FormularioLivro';
 import ItemLivro from './ItemLivro';
-
+import { ler } from '../api/ler'; // Função de leitura do banco de dados MySQL.
 
 // URL gerada pelo redirecionamento de portas do ambiente de nuvem do GitHub Codespaces:
 const URL_DA_API = 'https://github.dev';
@@ -30,10 +33,11 @@ export default function Principal() {
 
     // Aciona a consulta de forma automatizada assim que o ciclo de montagem do app é iniciado
     useEffect(() => {
-        livros = carregarLivros();
-        if(livros)
-            setCarregando(false); // Esconde o componente circular de processamento da interface gráfica
-    }, []);
+        ler(URL_DA_API).then((livros) => {
+            setLivros(livros);
+            setCarregando(false);
+        });
+    }, []); // O array vazio garante que o efeito seja executado apenas uma vez, no momento da montagem do componente.
 
     // 4. OPERAÇÃO CREATE (POST) & UPDATE (PUT): Gravação e modificação de tuplas
     const salvarDados = () => {
