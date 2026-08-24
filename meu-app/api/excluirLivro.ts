@@ -8,7 +8,8 @@ export function excluirLivro(id: number, URL_DA_API: string): Promise<boolean> {
         Alert.alert('Confirmar Exclusão', 'Deseja realmente apagar este registro do banco de dados?', [
             {
                 text: 'Cancelar',
-                style: 'cancel'
+                style: 'cancel',
+                onPress: () => resolve(false) // Retorna falha da operação.
             },
             {
                 text: 'Excluir',
