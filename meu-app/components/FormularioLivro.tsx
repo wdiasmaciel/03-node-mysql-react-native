@@ -1,10 +1,10 @@
 // Importa os componentes visuais nativos:
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-// Importa a interface para formulário:
-import { InterfaceFormulario } from '../interface/InterfaceFormulario'
+// Importa a interface para propriedades do formulário:
+import { PropriedadesFormulario } from '../interface/PropriedadesFormulario'
 
 // Declara o componente aplicando a tipagem na propriedade recebida:
-export default function FormularioLivro(props: InterfaceFormulario) {
+export default function FormularioLivro(props: PropriedadesFormulario) {
     return (
         // Agrupa os elementos visuais e aplica um estilo extra de cor laranja caso esteja editando:
         <View style={[estilos.formulario, props.idEdicao !== null && estilos.formularioEdicao]}>

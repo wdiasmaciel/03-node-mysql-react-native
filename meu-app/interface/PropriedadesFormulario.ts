@@ -1,5 +1,5 @@
 // Define o contrato de tipos (Interface) para todas as propriedades (props) do formulário.
-export interface InterfaceFormulario {
+export interface PropriedadesFormulario {
     titulo: string; // O texto do título é uma string.
     setTitulo: (texto: string) => void; // Função que recebe uma string e retorna nada (void).
 
