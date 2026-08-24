@@ -193,11 +193,12 @@ Abra uma nova aba de terminal no seu Codespaces (clicando no botão `+` no canto
 Crie a seguinte estrutura de diretórios e arquivos:
    ```text
    ├── components/
-   │   ├── FormularioLivro.tsx  (Responsável por adicionar/editar - POST e PUT)
-   │   └── ItemLivro.tsx        (Responsável por exibir cada livro e excluir - GET e DELETE)
-   ├── interface/
-   │   └── InterfaceLivro.ts    (Contrato que diz quais são os campos de um livro vindo do MySQL)
-   └── App.tsx                  (Arquivo principal unificado)
+   │   ├── FormularioLivro.tsx    (Responsável por adicionar/editar - POST e PUT)
+   │   └── ItemLivro.tsx          (Responsável por exibir cada livro e excluir - GET e DELETE)
+   ├── interface/                 
+   │   ├── InterfaceFormulario.ts (Contrato que diz quais são os campos de um formulário para livro)
+   │   └── InterfaceLivro.ts      (Contrato que diz quais são os campos de um livro vindo do MySQL)
+   └── App.tsx                    (Arquivo principal unificado)
    ```
 
 --- 
