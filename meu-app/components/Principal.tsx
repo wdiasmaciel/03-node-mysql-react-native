@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 // Importa os componentes visuais nativos:
-import { StyleSheet, Text, FlatList, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, Text, FlatList, ActivityIndicator } from 'react-native';
 
 // Importação da interface para livros do Banco de Dados MySQL:
 import { InterfaceLivro } from '../interface/InterfaceLivro'
@@ -109,9 +109,10 @@ export default function Principal() {
                             <ItemLivro
                                 item={item}
                                 iniciarEdicao={iniciarEdicao}
-                                excluirLivro={(item.id) => { 
-                                    if (item.id !== undefined) {
-                                        excluir(item.id);
+                                excluirLivro={(id) => {
+                                    console.log('ID recebido para exclusão:', id); // Log para depuração. 
+                                    if (id !== undefined) {
+                                        excluir(id);
                                     }
                                 }}
                             />
