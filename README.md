@@ -190,7 +190,7 @@ Abra uma nova aba de terminal no seu Codespaces (clicando no botão `+` no canto
 
 # Estrutura
 
-crie a seguinte estrutura:
+Crie a seguinte estrutura de diretórios e arquivos:
    ```text
    ├── components/
    │   ├── FormularioLivro.tsx  (Responsável por adicionar/editar - POST e PUT)
