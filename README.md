@@ -163,7 +163,14 @@ Entre no diretório do aplicativo:
 
 Execute o comando:
    ```bash
-   npx expo install react-dom react-native-web
+   npx expo install react-dom react-native-web react-native-safe-area-context
+   ```
+
+Caso seja apresenta a mensagem abaixo, pressione `Y`.
+   ```text
+   Need to install the following packages:
+   expo@57.0.15
+   Ok to proceed? (y) 
    ```
 
 Inicie a aplicação:
@@ -174,7 +181,7 @@ Inicie a aplicação:
 Caso seja apresentada a mensagem abaixo, informe `y`:
    ```text
    Need to install the following packages:
-   expo@54.0.10
+   expo@57.0.15
    Ok to proceed? (y)
    ```
 

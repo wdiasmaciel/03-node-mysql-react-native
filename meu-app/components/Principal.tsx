@@ -3,26 +3,20 @@ import { useEffect, useState } from 'react';
 // Importa os componentes visuais nativos:
 import { StyleSheet, Text, FlatList, ActivityIndicator, SafeAreaView, Alert } from 'react-native'; 
 
-// Importação dos componentes modulares criados anteriormente
-import FormularioLivro from './componentes/FormularioLivro';
-import ItemLivro from './componentes/ItemLivro';
+// Importação dos componentes modulares criados:
+import FormularioLivro from './FormularioLivro';
+import ItemLivro from './ItemLivro';
 
-// Definição da tipagem explícita do objeto Livro que mapeia perfeitamente a tabela do MySQL
-export interface InterfaceLivro {
-    id: number;
-    titulo: string;
-    autor: string;
-    preco: number;
-    estoque: number;
-}
+// Importação da interface para livros do Banco de Dados MySQL:
+import { InterfaceLivro } from '../interface/InterfaceLivro'
 
-// URL gerada pelo redirecionamento de portas do ambiente de nuvem do GitHub Codespaces
+// URL gerada pelo redirecionamento de portas do ambiente de nuvem do GitHub Codespaces:
 const URL_DA_API = 'https://github.dev';
 
-export default function App() {
-    // 1. ESTADOS DO SISTEMA DE GERENCIAMENTO (Tipados estritamente pelo TypeScript)
-    const [livros, setLivros] = useState<InterfaceLivro[]>([]); // Estado aceita apenas um array contendo objetos do tipo InterfaceLivro
-    const [carregando, setCarregando] = useState<boolean>(true); // Estado booleano para controlar o indicador de carregamento visual
+export default function Principal() {
+    // 1. ESTADOS DO SISTEMA DE GERENCIAMENTO (Tipados estritamente pelo TypeScript):
+    const [livros, setLivros] = useState<InterfaceLivro[]>([]); // Estado aceita apenas um array contendo objetos do tipo InterfaceLivro.
+    const [carregando, setCarregando] = useState<boolean>(true); // Estado booleano para controlar o indicador de carregamento visual.
 
     // 2. ESTADOS DAS ENTRADAS DO FORMULÁRIO DE CAPTURA
     const [titulo, setTitulo] = useState<string>('');
