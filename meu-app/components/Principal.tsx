@@ -14,7 +14,8 @@ import { InterfaceLivro } from '../interface/InterfaceLivro'
 import FormularioLivro from './FormularioLivro';
 import ItemLivro from './ItemLivro';
 import { lerLivros } from '../api/lerLivros'; // Função de leitura no banco de dados MySQL.
-import { salvarLivros } from '../api/salvarLivros'; // Função de escrita no banco de dados MySQL.
+import { salvarLivro } from '../api/salvarLivro'; // Função de escrita no banco de dados MySQL.
+import { excluirLivro } from '../api/excluirLivro'; // Função de exclusão no banco de dados MySQL.
 
 // URL gerada pelo redirecionamento de portas do ambiente de nuvem do GitHub Codespaces:
 const URL_DA_API: string = 'https://github.dev';
@@ -39,53 +40,39 @@ export default function Principal() {
     };
 
     const salvar = (idEdicao: number | null, livro: InterfaceLivro) => {
-        salvarLivros(idEdicao, livro, URL_DA_API);
+        salvarLivro(idEdicao, livro, URL_DA_API);
         limparFormulario(); // Executa o reset visual de todas as caixas de inserção.
         carregar(); // Atualiza a tela executando um novo GET automático de sincronização.
     };
 
+    const excluir = (id: number) => {
+        excluirLivro(id, URL_DA_API);
+        if (idEdicao === id) limparFormulario(); // Se o item deletado for o mesmo que estava sob edição ativa, limpa a tela.
+        carregar(); // Atualiza a lista, removendo o item apagado.
+    };
+     
     // Aciona a consulta de forma automatizada assim que o ciclo de montagem do app é iniciado:
     useEffect(() => {
         carregar();
     }, []); // O array vazio garante que o efeito seja executado apenas uma vez, no momento da montagem do componente.
 
 
-    // Intercepta o clique na lista e popula o painel superior injetando os dados do objeto selecionado
+    // Intercepta o clique na lista e popula o painel superior injetando os dados do objeto selecionado.
     const iniciarEdicao = (livro: InterfaceLivro) => {
-        setIdEdicao(livro.id); // Transforma o estado de inserção para atualização injetando o número identificador do banco
+        setIdEdicao(livro.id); // Altera o estado de inserção para atualização injetando o número identificador do livro.
         setTitulo(livro.titulo);
         setAutor(livro.autor);
-        setPreco(livro.preco.toString()); // Converte os tipos numéricos para string para que o componente visual exiba sem bugs
-        setEstoque(livro.estoque.toString());
+        setPreco(livro.preco.toString()); // Converte o tipo numérico para string para que o componente visual exiba sem erros.
+        setEstoque(livro.estoque.toString()); // Converte o tipo numérico para string para que o componente visual exiba sem erros.
     };
 
-    // Limpa todos os estados esvaziando a memória temporária do formulário de entrada
+    // Limpa todos os estados esvaziando a memória temporária do formulário de entrada:
     const limparFormulario = () => {
         setIdEdicao(null);
         setTitulo('');
         setAutor('');
         setPreco('');
         setEstoque('');
-    };
-
-    // 5. OPERAÇÃO DELETE (DELETE): Remoção física de registros baseada no ID
-    const excluirLivro = (id: number) => {
-        // Alerta nativo de dupla confirmação do dispositivo móvel para evitar cliques acidentais
-        Alert.alert('Confirmar Exclusão', 'Deseja realmente apagar este registro do banco de dados?', [
-            { text: 'Cancelar', style: 'cancel' },
-            {
-                text: 'Excluir',
-                style: 'destructive',
-                onPress: () => {
-                    fetch(`${URL_DA_API}/${id}`, { method: 'DELETE' }) // Dispara o verbo DELETE direcionando ao ID específico
-                        .then(() => {
-                            Alert.alert('Removido!', 'O registro foi apagado do MySQL.');
-                            if (idEdicao === id) limparFormulario(); // Se o item deletado for o mesmo que estava sob edição ativa, limpa a tela
-                            carregarLivros(); // Atualiza a lista removendo o item apagado
-                        });
-                },
-            },
-        ]);
     };
 
     return (

@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 import { InterfaceLivro } from '../interface/InterfaceLivro'
 
 // OPERAÇÃO CREATE (POST) & UPDATE (PUT): gravação e modificação de tuplas:
-export async function salvarLivros(idEdicao: number | null, livro: InterfaceLivro, URL_DA_API: string) {
+export async function salvarLivro(idEdicao: number | null, livro: InterfaceLivro, URL_DA_API: string) {
     const { titulo, autor, preco, estoque } = livro;
 
     // Validação preventiva no front-end para evitar o envio de strings ou dados em branco:
@@ -26,7 +26,7 @@ export async function salvarLivros(idEdicao: number | null, livro: InterfaceLivr
     const urlFinal = idEdicao == null ? URL_DA_API : `${URL_DA_API}/${idEdicao}`;
     const metodoHttp = idEdicao == null ? 'POST' : 'PUT';
 
-    fetch(urlFinal, {
+    await fetch(urlFinal, {
         method: metodoHttp,
         headers: { 'Content-Type': 'application/json' }, // Cabeçalho sinaliza que o corpo está em notação JSON.
         body: JSON.stringify(dadosLivro), // Transforma o objeto tipado em string textual para transporte na rede HTTP.
