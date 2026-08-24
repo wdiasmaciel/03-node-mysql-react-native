@@ -46,10 +46,13 @@ export default function Principal() {
         carregar(); // Atualiza a tela executando um novo GET automático de sincronização.
     };
 
-    const excluir = (id: number) => {
-        excluirLivro(id, URL_DA_API);
-        if (idEdicao === id) limparFormulario(); // Se o item deletado for o mesmo que estava sob edição ativa, limpa a tela.
-        carregar(); // Atualiza a lista, removendo o item apagado.
+    const excluir = async (id: number) => {
+        const removido = await excluirLivro(id, URL_DA_API);
+        if (removido) {
+            if (idEdicao === id)
+                limparFormulario(); // Se o item deletado for o mesmo que estava sob edição ativa, limpa a tela.
+            carregar(); // Atualiza a lista, removendo o item apagado.
+        }
     };
 
     // Intercepta o clique na lista e popula o painel superior injetando os dados do objeto selecionado.
