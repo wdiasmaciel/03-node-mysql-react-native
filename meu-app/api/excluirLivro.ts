@@ -29,9 +29,8 @@ export function excluirLivro(id: number, URL_DA_API: string): Promise<boolean> {
                         Alert.alert('Erro', 'Ocorreu um erro ao tentar excluir o registro.');
                         resolve(false); // Retorna falha da operação.
                     }
-                },
-            },
-        ]
-        );
+                }
+            }
+        ]);
     });
 }
