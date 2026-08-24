@@ -18,7 +18,8 @@ import { salvarLivro } from '../api/salvarLivro'; // Função de escrita no banc
 import { excluirLivro } from '../api/excluirLivro'; // Função de exclusão no banco de dados MySQL.
 
 // URL gerada pelo redirecionamento de portas do ambiente de nuvem do GitHub Codespaces:
-const URL_DA_API: string = 'https://github.dev';
+const URL: string = 'https://fluffy-space-palm-tree-r4rjvrvvgjv4fx5v7-3000.app.github.dev/';
+const URL_DA_API: string = URL + 'livros'; // Monta a URL final para o endpoint de livros do MySQL.
 
 export default function Principal() {
     // ESTADOs DO SISTEMA DE GERENCIAMENTO (Tipados estritamente pelo TypeScript):
