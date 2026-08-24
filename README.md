@@ -185,3 +185,15 @@ Abra uma nova aba de terminal no seu Codespaces (clicando no botão `+` no canto
    ```bash
    git add . && git commit -m "Exemplo: Node, MySQL e React Native" && git push
    ```
+
+---
+
+# Estrutura
+
+crie a seguinte estrutura:
+   ```text
+   ├── componentes/
+   │   ├── FormularioLivro.js  (Responsável por adicionar/editar - POST e PUT)
+   │   └── ItemLivro.js        (Responsável por exibir cada livro e excluir - GET e DELETE)
+   └── App.js                  (Arquivo principal unificado)
+   ```
