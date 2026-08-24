@@ -3,36 +3,44 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 // Importa a interface para propriedades do livro:
 import { PropriedadesLivro } from '../interface/PropriedadesLivro'; 
 
-// Componente que renderiza o cartão visual de cada livro
+// Componente que renderiza o cartão visual de cada livro:
 export default function ItemLivro(props: PropriedadesLivro) {
     return (
-        // Transforma o cartão inteiro em um item clicável para ativar a alteração de dados (PUT)
-        <TouchableOpacity style={estilos.cartao} onPress={() => iniciarEdicao(item)} activeOpacity={0.7}>
-            {/* Seção superior contendo as strings de informação e o botão de descarte */}
+        // Transforma o cartão inteiro em um item clicável para ativar a alteração de dados (PUT):
+        <TouchableOpacity 
+            style={estilos.cartao} 
+            onPress={() => props.iniciarEdicao(props.item)} 
+            activeOpacity={0.7}
+        >
+            {/* Seção superior contendo as strings de informação e o botão de descarte: */}
             <View style={estilos.cabecalhoCartao}>
                 <View style={{ flex: 1 }}>
-                    <Text style={estilos.livroTitulo}>{item.titulo}</Text>
-                    <Text style={estilos.livroAutor}>Por: {item.autor}</Text>
+                    <Text style={estilos.livroTitulo}>{props.item.titulo}</Text>
+                    <Text style={estilos.livroAutor}>Por: {props.item.autor}</Text>
                 </View>
 
-                {/* Botão de exclusão isolado posicionado na lateral superior direita */}
-                <TouchableOpacity style={estilos.botaoDeletar} onPress={() => excluirLivro(item.id)}>
+                {/* Botão de exclusão isolado posicionado na lateral superior direita: */}
+                <TouchableOpacity 
+                    style={estilos.botaoDeletar} 
+                    onPress={() => props.excluirLivro(props.item.id)}
+                >
                     <Text style={estilos.botaoDeletarTexto}>Excluir</Text>
                 </TouchableOpacity>
             </View>
 
-            {/* Seção inferior exibindo o preço formatado e o total em estoque */}
+            {/* Seção inferior exibindo o preço formatado e o total em estoque: */}
             <View style={estilos.fileiraInfo}>
-                <Text style={estilos.livroPreco}>R$ {Number(item.preco).toFixed(2)}</Text>
-                <Text style={estilos.livroEstoque}>Estoque: {item.estoque}</Text>
+                <Text style={estilos.livroPreco}>R$ {Number(props.item.preco).toFixed(2)}</Text>
+                <Text style={estilos.livroEstoque}>Estoque: {props.item.estoque}</Text>
             </View>
 
-            {/* Mensagem discreta instruindo o aluno sobre a ação de toque na tela */}
+            {/* Mensagem discreta instruindo sobre a ação de toque na tela para editar:*/}
             <Text style={estilos.dicaEdicao}>Toque para editar</Text>
         </TouchableOpacity>
     );
 }
 
+// Estilos:
 const estilos = StyleSheet.create({
     cartao: { backgroundColor: '#fff', padding: 12, borderRadius: 8, marginBottom: 10, elevation: 1 },
     cabecalhoCartao: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
