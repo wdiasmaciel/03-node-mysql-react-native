@@ -40,8 +40,8 @@ export default function Principal() {
         });
     };
 
-    const salvar = (idEdicao: number | undefined, livro: InterfaceLivro) => {
-        salvarLivro(idEdicao, livro, URL_DA_API);
+    const salvar = async (idEdicao: number | undefined, livro: InterfaceLivro) => {
+        await salvarLivro(idEdicao, livro, URL_DA_API);
         limparFormulario(); // Executa o reset visual de todas as caixas de inserção.
         carregar(); // Atualiza a tela executando um novo GET automático de sincronização.
     };
