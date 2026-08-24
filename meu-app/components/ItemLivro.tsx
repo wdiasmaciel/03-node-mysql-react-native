@@ -3,13 +3,6 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 // Importa o tipo do livro:
 import { InterfaceLivro } from '../interface/InterfaceLivro'; 
 
-// Define o contrato de tipos das propriedades esperadas por cada linha da lista
-interface PropriedadesItem {
-    item: InterfaceLivro; // Recebe um objeto livro estrito que segue as regras da nossa interface
-    iniciarEdicao: (livro: InterfaceLivro) => void; // Função que carrega o livro clicado de volta para o formulário
-    excluirLivro: (id: number) => void; // Função que deleta o item recebendo o ID numérico correspondente
-}
-
 // Componente que renderiza o cartão visual de cada livro
 export default function ItemLivro({ item, iniciarEdicao, excluirLivro }: PropriedadesItem) {
     return (
