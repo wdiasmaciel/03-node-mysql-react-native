@@ -1,10 +1,10 @@
 // Importa os componentes visuais nativos:
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'; 
-// Importa o tipo do livro:
-import { InterfaceLivro } from '../interface/InterfaceLivro'; 
+// Importa a interface para propriedades do livro:
+import { PropriedadesLivro } from '../interface/PropriedadesLivro'; 
 
 // Componente que renderiza o cartão visual de cada livro
-export default function ItemLivro({ item, iniciarEdicao, excluirLivro }: PropriedadesItem) {
+export default function ItemLivro(props: PropriedadesLivro) {
     return (
         // Transforma o cartão inteiro em um item clicável para ativar a alteração de dados (PUT)
         <TouchableOpacity style={estilos.cartao} onPress={() => iniciarEdicao(item)} activeOpacity={0.7}>
