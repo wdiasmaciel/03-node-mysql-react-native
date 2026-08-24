@@ -218,9 +218,9 @@ No arquivo `InterfaceLivro.ts`, informe o conteúdo abaixo:
 
 --- 
 
-# Interface
+# Formulário
 
-No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
+No arquivo `FormularioLivro.tsx`, informe o conteúdo abaixo:
 
    ```javascript
    ```
