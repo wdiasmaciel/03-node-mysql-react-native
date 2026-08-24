@@ -47,14 +47,11 @@ export default function Principal() {
     };
 
     const excluir = async (id: number) => {
-        console.log('Função excluir chamada com ID:', id); // Log para depuração.
-        const removido = await excluirLivro(id, URL_DA_API);
-        
+        const removido = await excluirLivro(id, URL_DA_API);       
         if (removido) {
             if (idEdicao === id){
                 limparFormulario(); // Se o item deletado for o mesmo que estava sob edição ativa, limpa a tela.
             }
-
             carregar(); // Atualiza a lista, removendo o item apagado.
         }
     };
@@ -111,9 +108,7 @@ export default function Principal() {
                                 item={item}
                                 iniciarEdicao={iniciarEdicao}
                                 excluirLivro={(id) => {
-                                    console.log('ID recebido para exclusão:', id); // Log para depuração. 
                                     if (id !== undefined) {
-                                        console.log('Chamando função de exclusão com ID:', id); // Log para depuração.
                                         excluir(id);
                                     }
                                 }}
