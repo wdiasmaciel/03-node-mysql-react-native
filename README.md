@@ -132,6 +132,10 @@ Caso o Node Package Manager (NPM) não esteja instaldo, execute o comando abaixo
 2. https://docs.expo.dev/ 
 
   ```bash
+  npm install expo
+  ```
+
+  ```bash
   npx create-expo-app@latest --template
   ```
 
