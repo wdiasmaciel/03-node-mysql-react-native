@@ -728,4 +728,22 @@ const estilos = StyleSheet.create({
 
 3. Crie o aplicativo para todas as tabelas do site de viagens. O banco de dados deve ter as tabelas: cliente, destino turístico e pacote de viagem.
 
-4. Crie o aplicativo para todas as tabelas do sistema de controle de estoque de produtos nas filiais de uma empresa.
+4. Crie o aplicativo para todas as tabelas do sistema de controle de estoque de produtos nas filiais de uma empresa. As entidades do banco de dados devem ser: 
+
+- Fornecedor.
+- Produto.
+- Identificação.
+- Filial.
+- Estoque. 
+
+A entidade Fornecedor deve possuir os atributos: id (chave primária), nome, telefone e endereço. 
+
+A entidade Produto deve possuir os atributos: id (chave primária), id_fornecedor (chave estrangeira que se refere à chave primária de fornecedor) e nome. 
+
+A entidade Identificação deve possuir os atributos: id (chave primária), descrição, e observação. 
+
+A entidade Filial deve possuir os atributos: cnpj (chave primária), nome, telefone e endereço. 
+
+A entidade Estoque deve possuir os atributos: id_produto (chave primária e chave estrangeira que se refere à chave primária de Produto), cnpj_filial (chave primária e chave estrangeira que se refere à chave primária de Filial), preço, quantidade e validade (que é a data de validade do produto em estoque. 
+
+No projeto, cada Fornecedor fornece vários produtos, mas cada produto é fornecido por apenas um fornecedor. Cada produto possui apenas uma única identificação e cada identificação refere-se a apenas um único produto. Cada Filial vende vários produtos e cada produto pode ser vendido em mais de uma filial. Por isso, entre as entidades Produto e Filial há a entidade-relacionamento Estoque.
