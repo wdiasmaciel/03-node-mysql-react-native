@@ -217,8 +217,9 @@ Crie a seguinte estrutura de diretórios e arquivos:
    │   └── Principal.tsx             (Orquestrador: reune todos os componentes)
    ├── interface/                     
    │   ├── InterfaceLivro.ts         (Contrato que diz quais são os campos de um livro vindo do MySQL)
-   │   └── PropriedadesFormulario.ts (Contrato que diz quais são as propriedades de um formulário para livro)
-   └── App.tsx                       (Arquivo principal unificado)
+   │   ├── PropriedadesFormulario.ts (Contrato que diz quais são as propriedades de um formulário para livro)
+   │   └── PropriedadesLivro.ts      (Contrato que diz quais são as propriedades de um livro)
+   └── App.tsx                       (Arquivo principal)
    ```
 
 --- 
