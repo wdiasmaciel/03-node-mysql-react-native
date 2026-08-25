@@ -271,7 +271,11 @@ No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
 
 # Telas
 
-
 | Tela Inicial | Tela de Cadastro | Tela de Cadastro |
 | :---: | :---: | :---: |
 | ![Tela inicial.](./imagem/tela-inicial.png) | ![Tela de cadastro 1](./imagem/tela-cadastro-1.png) | ![Tela de cadastro 2](./imagem/tela-cadastro-2.png) |
+
+
+| Tela de Atualização | Tela de Atualização | Tela de Atualização |
+| :---: | :---: | :---: |
+| ![Tela de atualização 1.](./imagem/tela-atualizacao-1.png) | ![Tela de atualização 2](./imagem/tela-atualizacao-2.png) | ![Tela de atualização 3](./imagem/tela-atualizacao-3.png) |
