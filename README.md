@@ -717,3 +717,15 @@ const estilos = StyleSheet.create({
 | Tela de Exclusão | Tela de Exclusão | Tela de Exclusão |
 | :---: | :---: | :---: |
 | ![Tela de exclusão 1.](./imagem/tela-exclusao-1.png) | ![Tela de exclusão 2](./imagem/tela-exclusao-2.png) | ![Tela de exclusão 3](./imagem/tela-exclusao-3.png) |
+
+---
+
+# Exercício
+
+1. A partir do exemplo desta prática, altere o código, incluindo as telas para as tabelas cliente e pedido.
+
+2. Crie o aplicativo para todas as tabelas da loja que vende equipamento de informática. O banco de dados deve ter as tabelas: cliente, produto e pedido.
+
+3. Crie o aplicativo para todas as tabelas do site de viagens. O banco de dados deve ter as tabelas: cliente, destino turístico e pacote de viagem.
+
+4. Crie o aplicativo para todas as tabelas do sistema de controle de estoque de produtos nas filiais de uma empresa.
