@@ -213,7 +213,8 @@ Crie a seguinte estrutura de diretórios e arquivos:
    │   └── salvarLivro.ts            (OPERAÇÃO CREATE (POST) & UPDATE (PUT): gravação e modificação de tuplas)
    ├── components/                   
    │   ├── FormularioLivro.tsx       (Responsável por adicionar/editar - POST e PUT)
-   │   └── ItemLivro.tsx             (Responsável por exibir cada livro e excluir - GET e DELETE)
+   │   ├── ItemLivro.tsx             (Responsável por exibir cada livro e excluir - GET e DELETE)
+   │   └── Principal.tsx             (Orquestrador: reune todos os componentes)
    ├── interface/                     
    │   ├── InterfaceLivro.ts         (Contrato que diz quais são os campos de um livro vindo do MySQL)
    │   └── PropriedadesFormulario.ts (Contrato que diz quais são as propriedades de um formulário para livro)
