@@ -207,6 +207,10 @@ Abra uma nova aba de terminal no seu Codespaces (clicando no botão `+` no canto
 
 Crie a seguinte estrutura de diretórios e arquivos:
    ```text
+   ├── api/
+   │   ├── excluirLivro.ts       (Responsável por adicionar/editar - POST e PUT)
+   │   ├── lerLivros.ts       (Responsável por adicionar/editar - POST e PUT)
+   │   └── salvarLivro.ts             (Responsável por exibir cada livro e excluir - GET e DELETE)
    ├── components/
    │   ├── FormularioLivro.tsx       (Responsável por adicionar/editar - POST e PUT)
    │   └── ItemLivro.tsx             (Responsável por exibir cada livro e excluir - GET e DELETE)
