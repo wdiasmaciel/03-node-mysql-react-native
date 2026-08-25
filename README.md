@@ -279,3 +279,8 @@ No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
 | Tela de Atualização | Tela de Atualização | Tela de Atualização |
 | :---: | :---: | :---: |
 | ![Tela de atualização 1.](./imagem/tela-atualizacao-1.png) | ![Tela de atualização 2](./imagem/tela-atualizacao-2.png) | ![Tela de atualização 3](./imagem/tela-atualizacao-3.png) |
+
+
+| Tela de Exclusão | Tela de Exclusão | Tela de Exclusão |
+| :---: | :---: | :---: |
+| ![Tela de exclusão 1.](./imagem/tela-exclusao-1.png) | ![Tela de exclusão 2](./imagem/tela-exclusao-2.png) | ![Tela de exclusão 3](./imagem/tela-exclusao-3.png) |
