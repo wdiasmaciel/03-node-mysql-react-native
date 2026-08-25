@@ -14,7 +14,7 @@ export default function ItemLivro(props: PropriedadesLivro) {
         >
             {/* Seção superior contendo as strings de informação e o botão de descarte: */}
             <View style={estilos.cabecalhoCartao}>
-                <View style={{ flex: 1 }}>
+                <View style={estilos.detalhesLivro}>
                     <Text style={estilos.livroTitulo}>{props.item.titulo}</Text>
                     <Text style={estilos.livroAutor}>Por: {props.item.autor}</Text>
                 </View>
@@ -47,8 +47,9 @@ export default function ItemLivro(props: PropriedadesLivro) {
 // Estilos:
 const estilos = StyleSheet.create({
     cartao: { backgroundColor: '#fff', padding: 12, borderRadius: 8, marginBottom: 10, elevation: 1 },
-    cabecalhoCartao: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
-    livroTitulo: { fontSize: 16, fontWeight: 'bold' },
+    cabecalhoCartao: { flexDirection: 'row', alignItems: 'flex-start' },
+    detalhesLivro: { flex: 1, minWidth: 0, marginRight: 8 },
+    livroTitulo: { fontSize: 16, fontWeight: 'bold', flexShrink: 1 },
     livroAutor: { fontSize: 13, color: '#666' },
     botaoDeletar: { backgroundColor: '#d32f2f', paddingHorizontal: 10, paddingVertical: 6, borderRadius: 4 },
     botaoDeletarTexto: { color: '#fff', fontSize: 12, fontWeight: 'bold' },

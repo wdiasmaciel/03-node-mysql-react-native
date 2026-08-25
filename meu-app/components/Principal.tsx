@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 // Importa os componentes visuais nativos:
-import { StyleSheet, Text, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, FlatList, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
 
 // Importação da interface para livros do Banco de Dados MySQL:
 import { InterfaceLivro } from '../interface/InterfaceLivro'
@@ -81,47 +81,57 @@ export default function Principal() {
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView style={estilos.container}>
-                <Text style={estilos.titulo}>Painel CRUD Livraria (MySQL)</Text>
+            <KeyboardAvoidingView
+                style={estilos.teclado}
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            >
+                <SafeAreaView style={estilos.container}>
+                    <Text style={estilos.titulo}>Painel CRUD Livraria (MySQL)</Text>
 
-                {/* Acopla o componente de formulário repassando dados e gatilhos via Props: */}
-                <FormularioLivro
-                    titulo={titulo} setTitulo={setTitulo}
-                    autor={autor} setAutor={setAutor}
-                    preco={preco} setPreco={setPreco}
-                    estoque={estoque} setEstoque={setEstoque}
-                    idEdicao={idEdicao} salvarDados={salvar}
-                    limparFormulario={limparFormulario}
-                />
-
-                {/* Condicional que avalia o estado de carregamento assíncrono: */}
-                {carregando ? (
-                    <ActivityIndicator size="large" color="#0000ff" />
-                ) : (
-                    // Listagem otimizada nativa para grandes volumes de registros mapeando o array vindo do banco de dados:
-                    <FlatList
-                        data={livros}
-                        keyExtractor={(item) => item.id?.toString() || Math.random().toString()} // Garante chaves textuais únicas baseadas no ID incremental do MySQL.
-                        renderItem={({ item }) => (
-                            // Invoca o componente visual de linha injetando o livro específico:
-                            <ItemLivro
-                                item={item}
-                                iniciarEdicao={iniciarEdicao}
-                                excluirLivro={(id) => {
-                                    if (id !== undefined) {
-                                        excluir(id);
-                                    }
-                                }}
-                            />
-                        )}
+                    {/* Acopla o componente de formulário repassando dados e gatilhos via Props: */}
+                    <FormularioLivro
+                        titulo={titulo} setTitulo={setTitulo}
+                        autor={autor} setAutor={setAutor}
+                        preco={preco} setPreco={setPreco}
+                        estoque={estoque} setEstoque={setEstoque}
+                        idEdicao={idEdicao} salvarDados={salvar}
+                        limparFormulario={limparFormulario}
                     />
-                )}
-            </SafeAreaView>
+
+                    {/* Condicional que avalia o estado de carregamento assíncrono: */}
+                    {carregando ? (
+                        <ActivityIndicator size="large" color="#0000ff" />
+                    ) : (
+                        // Listagem otimizada nativa para grandes volumes de registros mapeando o array vindo do banco de dados:
+                        <FlatList
+                            style={estilos.lista}
+                            contentContainerStyle={estilos.conteudoLista}
+                            data={livros}
+                            keyExtractor={(item) => item.id?.toString() || Math.random().toString()} // Garante chaves textuais únicas baseadas no ID incremental do MySQL.
+                            renderItem={({ item }) => (
+                                // Invoca o componente visual de linha injetando o livro específico:
+                                <ItemLivro
+                                    item={item}
+                                    iniciarEdicao={iniciarEdicao}
+                                    excluirLivro={(id) => {
+                                        if (id !== undefined) {
+                                            excluir(id);
+                                        }
+                                    }}
+                                />
+                            )}
+                        />
+                    )}
+                </SafeAreaView>
+            </KeyboardAvoidingView>
         </SafeAreaProvider>
     );
 }
 
 const estilos = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#f5f5f5', paddingHorizontal: 16, paddingTop: 10 },
+    teclado: { flex: 1 },
+    container: { flex: 1, width: '100%', backgroundColor: '#f5f5f5', paddingHorizontal: 16, paddingTop: 10 },
+    lista: { flex: 1, width: '100%' },
+    conteudoLista: { paddingBottom: 24 },
     titulo: { fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginBottom: 12 }
 });
