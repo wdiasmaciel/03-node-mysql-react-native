@@ -43,7 +43,7 @@ Se a sua API estiver rodando na porta `3000`, por exemplo, você precisa liberá
 
 3. Clique com o botão direito sobre ela, vá em `Port Visibility` (Visibilidade da Porta) e mude de `Private` para `Public`.
 
-O `GitHub` vai te dar uma URL longa (ex: https://github.dev).
+O `GitHub` vai te dar uma URL longa, geralmente terminada em `.app.github.dev`.
 
 ## 3. Chamar essa URL no React Native
 
@@ -51,7 +51,7 @@ No código do seu aplicativo React Native, você usará o comando `fetch` ou a b
 
 ```javascript
 // Exemplo no React Native:
-fetch('https://github.dev')
+fetch('https://SUA-URL-PUBLICA.app.github.dev/livros')
   .then(response => response.json())
   .then(data => console.log(data));
 ```
@@ -224,55 +224,482 @@ Crie a seguinte estrutura de diretórios e arquivos:
 
 --- 
 
-# Interface
+# Código do aplicativo
 
-No arquivo `InterfaceLivro.ts`, informe o conteúdo abaixo:
+Os arquivos abaixo devem ser criados dentro da pasta `meu-app/`.
 
-   ```javascript
-   export interface InterfaceLivro {
-       id: number;
-       titulo: string;
-       autor: string;
-       preco: number;
-       estoque: number;
+## InterfaceLivro.ts
+
+Contrato dos dados recebidos e enviados pela API:
+
+```typescript
+export interface InterfaceLivro {
+   id: number | undefined;
+   titulo: string;
+   autor: string;
+   preco: number;
+   estoque: number;
+}
+```
+
+## PropriedadesFormulario.ts
+
+Contrato das propriedades usadas pelo formulário:
+
+```typescript
+import { InterfaceLivro } from '../interface/InterfaceLivro';
+
+export interface PropriedadesFormulario {
+   titulo: string;
+   setTitulo: (texto: string) => void;
+   autor: string;
+   setAutor: (texto: string) => void;
+   preco: string;
+   setPreco: (texto: string) => void;
+   estoque: string;
+   setEstoque: (texto: string) => void;
+   idEdicao: number | undefined;
+   salvarDados: (idEdicao: number | undefined, livro: InterfaceLivro) => void;
+   limparFormulario: () => void;
+}
+```
+
+## PropriedadesLivro.ts
+
+Contrato das propriedades de cada item renderizado na lista:
+
+```typescript
+import { InterfaceLivro } from '../interface/InterfaceLivro';
+
+export interface PropriedadesLivro {
+   item: InterfaceLivro;
+   iniciarEdicao: (livro: InterfaceLivro) => void;
+   excluirLivro: (id: number | undefined) => void;
+}
+```
+
+## lerLivros.ts
+
+Função que executa a operação `GET`:
+
+```typescript
+import { InterfaceLivro } from '../interface/InterfaceLivro';
+
+export async function lerLivros(URL_DA_API: string) {
+   let livros: InterfaceLivro[] = [];
+
+   await fetch(URL_DA_API)
+      .then((resposta) => resposta.json())
+      .then((dados: InterfaceLivro[]) => {
+         livros = dados;
+      })
+      .catch((erro) => console.error('Erro ao buscar livros no banco de dados:', erro));
+
+   return livros;
+}
+```
+
+## salvarLivro.ts
+
+Função que executa as operações `POST` e `PUT`. O verbo e a rota mudam de acordo com a existência do ID:
+
+```typescript
+import { Alert } from 'react-native';
+import { InterfaceLivro } from '../interface/InterfaceLivro';
+
+export async function salvarLivro(
+   idEdicao: number | undefined,
+   livro: InterfaceLivro,
+   URL_DA_API: string
+) {
+   const { titulo, autor, preco, estoque } = livro;
+
+   if (!titulo || !autor || !preco || !estoque) {
+      Alert.alert('Erro', 'Por favor, realize o preenchimento de todos os campos!');
+      return;
    }
-   ```
 
---- 
+   const dadosLivro = {
+      titulo: titulo.trim(),
+      autor: autor.trim(),
+      preco,
+      estoque
+   };
 
-# Formulário
+   const urlFinal = idEdicao === undefined
+      ? URL_DA_API
+      : `${URL_DA_API}/${idEdicao}`;
+   const metodoHttp = idEdicao === undefined ? 'POST' : 'PUT';
 
-No arquivo `FormularioLivro.tsx`, informe o conteúdo abaixo:
+   await fetch(urlFinal, {
+      method: metodoHttp,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dadosLivro)
+   })
+      .then((resposta) => resposta.json())
+      .then(() => {
+         Alert.alert(
+            'Sucesso!',
+            idEdicao === undefined
+               ? 'Livro cadastrado no MySQL!'
+               : 'Livro atualizado no MySQL!'
+         );
+      })
+      .catch((erro) => console.error('Erro ao processar requisição no servidor:', erro));
+}
+```
 
-   ```javascript
-   ```
+## excluirLivro.ts
 
-   --- 
+Função que solicita confirmação e executa a operação `DELETE`. A confirmação usa o alerta nativo no celular e `window.confirm` na versão web:
 
-# Interface
+```typescript
+import { Alert, Platform } from 'react-native';
 
-No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
+export async function excluirLivro(id: number, URL_DA_API: string): Promise<boolean> {
+   const mensagem = 'Deseja realmente apagar este registro do banco de dados?';
 
-   ```javascript
-   ```
+   if (Platform.OS === 'web') {
+      if (!window.confirm(mensagem)) {
+         return false;
+      }
+   } else {
+      const confirmado = await new Promise<boolean>((resolve) => {
+         Alert.alert('Confirmar Exclusão', mensagem, [
+            { text: 'Cancelar', style: 'cancel', onPress: () => resolve(false) },
+            { text: 'Excluir', style: 'destructive', onPress: () => resolve(true) }
+         ]);
+      });
 
-   --- 
+      if (!confirmado) {
+         return false;
+      }
+   }
 
-# Interface
+   try {
+      const resposta = await fetch(`${URL_DA_API}/${id}`, { method: 'DELETE' });
 
-No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
+      if (!resposta.ok) {
+         throw new Error(`Erro HTTP ${resposta.status}`);
+      }
 
-   ```javascript
-   ```
+      const mensagemSucesso = 'O registro foi removido do Banco de Dados MySQL.';
+      Platform.OS === 'web'
+         ? window.alert(mensagemSucesso)
+         : Alert.alert('Removido!', mensagemSucesso);
+      return true;
+   } catch {
+      const mensagemErro = 'Ocorreu um erro ao excluir o registro.';
+      Platform.OS === 'web'
+         ? window.alert(mensagemErro)
+         : Alert.alert('Erro', mensagemErro);
+      return false;
+   }
+}
+```
 
-   --- 
+## FormularioLivro.tsx
 
-# Interface
+O formulário usa `flex: 1` nos campos numéricos e nas ações para dividir o espaço disponível, sem depender de largura fixa:
 
-No arquivo InterfaceLivro.ts, informe o conteúdo abaixo:
+```tsx
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { PropriedadesFormulario } from '../interface/PropriedadesFormulario';
+import { InterfaceLivro } from '../interface/InterfaceLivro';
 
-   ```javascript
-   ```   
+export default function FormularioLivro(props: PropriedadesFormulario) {
+   return (
+      <View style={[estilos.formulario, props.idEdicao !== undefined && estilos.formularioEdicao]}>
+         <Text style={estilos.formularioTitulo}>
+            {props.idEdicao !== undefined ? 'Editando Registro' : 'Novo Livro'}
+         </Text>
+
+         <TextInput
+            style={estilos.entradaTexto}
+            placeholder="Título do Livro"
+            value={props.titulo}
+            onChangeText={props.setTitulo}
+         />
+         <TextInput
+            style={estilos.entradaTexto}
+            placeholder="Autor"
+            value={props.autor}
+            onChangeText={props.setAutor}
+         />
+
+         <View style={estilos.fileiraCampos}>
+            <TextInput
+                    style={[estilos.entradaTexto, { flex: 1, marginRight: 8 }]}
+               placeholder="Preço"
+               keyboardType="numeric"
+               value={props.preco}
+               onChangeText={props.setPreco}
+            />
+            <TextInput
+                    style={[estilos.entradaTexto, { flex: 1 }]}
+               placeholder="Estoque"
+               keyboardType="numeric"
+               value={props.estoque}
+               onChangeText={props.setEstoque}
+            />
+         </View>
+
+         <View style={estilos.fileiraAcoes}>
+            <TouchableOpacity
+               style={[estilos.botao, props.idEdicao !== undefined
+                  ? estilos.botaoLaranja
+                  : estilos.botaoVerde]}
+               onPress={() => {
+                  const livro: InterfaceLivro = {
+                     id: props.idEdicao,
+                     titulo: props.titulo,
+                     autor: props.autor,
+                     preco: parseFloat(props.preco) || 0,
+                     estoque: parseFloat(props.estoque) || 0
+                  };
+                  props.salvarDados(props.idEdicao, livro);
+               }}
+            >
+               <Text style={estilos.botaoTexto}>
+                  {props.idEdicao !== undefined ? 'Atualizar no MySQL' : 'Salvar no MySQL'}
+               </Text>
+            </TouchableOpacity>
+
+            {props.idEdicao !== undefined && (
+               <TouchableOpacity style={estilos.botaoCancelar} onPress={props.limparFormulario}>
+                  <Text style={estilos.cancelarTexto}>Cancelar</Text>
+               </TouchableOpacity>
+            )}
+         </View>
+      </View>
+   );
+}
+
+const estilos = StyleSheet.create({
+   formulario: { backgroundColor: '#fff', padding: 12, borderRadius: 8, marginBottom: 15, elevation: 2, borderWidth: 1, borderColor: '#eee' },
+   formularioEdicao: { borderColor: '#ed6c02', backgroundColor: '#fffbf7' },
+   formularioTitulo: { fontSize: 14, fontWeight: 'bold', color: '#555', marginBottom: 8 },
+   entradaTexto: { backgroundColor: '#f9f9f9', borderWidth: 1, borderColor: '#ddd', padding: 8, borderRadius: 5, marginBottom: 8 },
+   fileiraCampos: { flexDirection: 'row' },
+   fileiraAcoes: { flexDirection: 'row', marginTop: 4 },
+   botao: { flex: 2, padding: 12, borderRadius: 5, alignItems: 'center' },
+   botaoVerde: { backgroundColor: '#2e7d32' },
+   botaoLaranja: { backgroundColor: '#ed6c02' },
+   botaoCancelar: { flex: 1, backgroundColor: '#777', padding: 12, borderRadius: 5, alignItems: 'center', marginLeft: 8 },
+   botaoTexto: { color: '#fff', fontWeight: 'bold' },
+   cancelarTexto: { color: '#fff', fontWeight: 'bold' }
+});
+```
+
+## ItemLivro.tsx
+
+O detalhe do livro usa `minWidth: 0` e `flexShrink: 1`, permitindo que títulos longos ocupem várias linhas sem ultrapassar a tela:
+
+```tsx
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { PropriedadesLivro } from '../interface/PropriedadesLivro';
+
+export default function ItemLivro(props: PropriedadesLivro) {
+   return (
+      <TouchableOpacity
+         style={estilos.cartao}
+         onPress={() => props.iniciarEdicao(props.item)}
+         activeOpacity={0.7}
+      >
+         <View style={estilos.cabecalhoCartao}>
+            <View style={estilos.detalhesLivro}>
+               <Text style={estilos.livroTitulo}>{props.item.titulo}</Text>
+               <Text style={estilos.livroAutor}>Por: {props.item.autor}</Text>
+            </View>
+            <TouchableOpacity
+               style={estilos.botaoDeletar}
+               onPress={() => props.excluirLivro(props.item.id)}
+            >
+               <Text style={estilos.botaoDeletarTexto}>Excluir</Text>
+            </TouchableOpacity>
+         </View>
+
+         <View style={estilos.fileiraInfo}>
+            <Text style={estilos.livroPreco}>R$ {Number(props.item.preco).toFixed(2)}</Text>
+            <Text style={estilos.livroEstoque}>Estoque: {props.item.estoque}</Text>
+         </View>
+         <Text style={estilos.dicaEdicao}>Toque para editar</Text>
+      </TouchableOpacity>
+   );
+}
+
+const estilos = StyleSheet.create({
+   cartao: { backgroundColor: '#fff', padding: 12, borderRadius: 8, marginBottom: 10, elevation: 1 },
+   cabecalhoCartao: { flexDirection: 'row', alignItems: 'flex-start' },
+   detalhesLivro: { flex: 1, minWidth: 0, marginRight: 8 },
+   livroTitulo: { fontSize: 16, fontWeight: 'bold', flexShrink: 1 },
+   livroAutor: { fontSize: 13, color: '#666' },
+   botaoDeletar: { backgroundColor: '#d32f2f', paddingHorizontal: 10, paddingVertical: 6, borderRadius: 4 },
+   botaoDeletarTexto: { color: '#fff', fontSize: 12, fontWeight: 'bold' },
+   fileiraInfo: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 8, borderTopWidth: 1, borderTopColor: '#eee', paddingTop: 6 },
+   livroPreco: { fontSize: 14, fontWeight: 'bold', color: '#2e7d32' },
+   livroEstoque: { fontSize: 13, color: '#ed6c02' },
+   dicaEdicao: { fontSize: 10, color: '#999', textAlign: 'right', marginTop: 4, fontStyle: 'italic' }
+});
+```
+
+## Principal.tsx
+
+O componente principal usa `SafeAreaView` para respeitar as áreas seguras do dispositivo, `KeyboardAvoidingView` para o teclado virtual e `FlatList` para permitir a rolagem dos livros:
+
+```tsx
+import { useEffect, useState } from 'react';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, FlatList, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
+import { InterfaceLivro } from '../interface/InterfaceLivro';
+import FormularioLivro from './FormularioLivro';
+import ItemLivro from './ItemLivro';
+import { lerLivros } from '../api/lerLivros';
+import { salvarLivro } from '../api/salvarLivro';
+import { excluirLivro } from '../api/excluirLivro';
+
+const URL: string = 'https://SUA-URL-PUBLICA.app.github.dev/';
+const URL_DA_API: string = URL + 'livros';
+
+export default function Principal() {
+   const [livros, setLivros] = useState<InterfaceLivro[]>([]);
+   const [carregando, setCarregando] = useState<boolean>(true);
+   const [titulo, setTitulo] = useState<string>('');
+   const [autor, setAutor] = useState<string>('');
+   const [preco, setPreco] = useState<string>('');
+   const [estoque, setEstoque] = useState<string>('');
+   const [idEdicao, setIdEdicao] = useState<number | undefined>(undefined);
+
+   const carregar = () => {
+      lerLivros(URL_DA_API).then((dados) => {
+         setLivros(dados);
+         setCarregando(false);
+      });
+   };
+
+   const limparFormulario = () => {
+      setIdEdicao(undefined);
+      setTitulo('');
+      setAutor('');
+      setPreco('');
+      setEstoque('');
+   };
+
+   const salvar = async (id: number | undefined, livro: InterfaceLivro) => {
+      await salvarLivro(id, livro, URL_DA_API);
+      limparFormulario();
+      carregar();
+   };
+
+   const excluir = async (id: number) => {
+      const removido = await excluirLivro(id, URL_DA_API);
+      if (removido) {
+         if (idEdicao === id) {
+            limparFormulario();
+         }
+         carregar();
+      }
+   };
+
+   const iniciarEdicao = (livro: InterfaceLivro) => {
+      setIdEdicao(livro.id);
+      setTitulo(livro.titulo);
+      setAutor(livro.autor);
+      setPreco(livro.preco.toString());
+      setEstoque(livro.estoque.toString());
+   };
+
+   useEffect(() => {
+      carregar();
+   }, []);
+
+   return (
+      <SafeAreaProvider>
+         <KeyboardAvoidingView
+            style={estilos.teclado}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+         >
+            <SafeAreaView style={estilos.container}>
+               <Text style={estilos.titulo}>Painel CRUD Livraria (MySQL)</Text>
+               <FormularioLivro
+                  titulo={titulo} setTitulo={setTitulo}
+                  autor={autor} setAutor={setAutor}
+                  preco={preco} setPreco={setPreco}
+                  estoque={estoque} setEstoque={setEstoque}
+                  idEdicao={idEdicao}
+                  salvarDados={salvar}
+                  limparFormulario={limparFormulario}
+               />
+
+               {carregando ? (
+                  <ActivityIndicator size="large" color="#0000ff" />
+               ) : (
+                  <FlatList
+                     style={estilos.lista}
+                     contentContainerStyle={estilos.conteudoLista}
+                     data={livros}
+                     keyExtractor={(item) => item.id?.toString() || Math.random().toString()}
+                     renderItem={({ item }) => (
+                        <ItemLivro
+                           item={item}
+                           iniciarEdicao={iniciarEdicao}
+                           excluirLivro={(id) => {
+                              if (id !== undefined) {
+                                 excluir(id);
+                              }
+                           }}
+                        />
+                     )}
+                  />
+               )}
+            </SafeAreaView>
+         </KeyboardAvoidingView>
+      </SafeAreaProvider>
+   );
+}
+
+const estilos = StyleSheet.create({
+   teclado: { flex: 1 },
+   container: { flex: 1, width: '100%', backgroundColor: '#f5f5f5', paddingHorizontal: 16, paddingTop: 10 },
+   lista: { flex: 1, width: '100%' },
+   conteudoLista: { paddingBottom: 24 },
+   titulo: { fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginBottom: 12 }
+});
+```
+
+## App.tsx
+
+O contêiner da aplicação ocupa toda a tela e não força alinhamento horizontal, permitindo que o componente principal use a largura disponível:
+
+```tsx
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, View } from 'react-native';
+import Principal from './components/Principal';
+
+export default function App() {
+   return (
+      <View style={estilos.container}>
+         <Principal />
+         <StatusBar style="auto" />
+      </View>
+   );
+}
+
+const estilos = StyleSheet.create({
+   container: {
+      flex: 1,
+      backgroundColor: '#fff'
+   }
+});
+```
+
+### Boas práticas para telas pequenas
+
+- Prefira `flex: 1`, `width: '100%'` e espaçamentos internos a larguras fixas.
+- Use `FlatList` ou `ScrollView` quando o conteúdo puder ultrapassar a altura da tela.
+- Use `KeyboardAvoidingView` para manter o formulário acessível enquanto o teclado está aberto.
+- Em linhas horizontais, use `flexShrink: 1` e `minWidth: 0` para textos longos.
+- Teste o aplicativo no celular e na web com diferentes larguras de tela.
 
 
 # Telas
