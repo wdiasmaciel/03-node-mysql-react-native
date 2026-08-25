@@ -208,10 +208,10 @@ Abra uma nova aba de terminal no seu Codespaces (clicando no botão `+` no canto
 Crie a seguinte estrutura de diretórios e arquivos:
    ```text
    ├── api/
-   │   ├── excluirLivro.ts       (Responsável por adicionar/editar - POST e PUT)
-   │   ├── lerLivros.ts       (Responsável por adicionar/editar - POST e PUT)
-   │   └── salvarLivro.ts             (Responsável por exibir cada livro e excluir - GET e DELETE)
-   ├── components/
+   │   ├── excluirLivro.ts           (OPERAÇÃO DELETE (DELETE): remoção física de registro baseada no ID)
+   │   ├── lerLivros.ts              (OPERAÇÃO READ (GET): busca em lote todos os livros salvos no MySQL)
+   │   └── salvarLivro.ts            (OPERAÇÃO CREATE (POST) & UPDATE (PUT): gravação e modificação de tuplas)
+   ├── components/                   
    │   ├── FormularioLivro.tsx       (Responsável por adicionar/editar - POST e PUT)
    │   └── ItemLivro.tsx             (Responsável por exibir cada livro e excluir - GET e DELETE)
    ├── interface/                     
